@@ -120,27 +120,39 @@ int main() {
 
     std::cout << "Welcome to the One Piece Card Game!" << std::endl;
     std::cout << card_database.size() << " cards loaded from the database." << std::endl;
-    // for (const auto& card : card_database) {
-    //     std::cout << "Card Name: " << card.name << ", Type: " << card.type 
-    //               << ", Color: " << card.color << ", Cost: " << card.cost 
-    //               << ", Power: " << card.base_power << std::endl;
-    // }
 
     // Load player decks
     std::cout << "Loading player decks..." << std::endl;
     load_deck("player1_deck.txt", game.p1.deck, card_database);
+    load_deck("player2_deck.txt", game.p2.deck, card_database);
 
     // Shuffle decks and draw starting hands
     std::cout << "Shuffling decks and drawing starting hands..." << std::endl;
     game.p1.shuffle_deck();
     game.p1.draw_cards(5);
+    game.p2.shuffle_deck();
+    game.p2.draw_cards(5);
 
-    std::cout << "Player 1 starting hand:" << std::endl;
-    for (const auto& card : game.p1.hand) {
-        std::cout << "- " << card.name << " (Cost: " << card.cost 
-                  << ", Power: " << card.base_power << ")" << std::endl;
+    // Setup initial Life and Don!! Cards
+    game.p1.life_points = 5;
+    game.p1.don_deck_count = 10;
+
+    game.p2.life_points = 5;
+    game.p2.don_deck_count = 10;
+
+    // Main game loop
+    bool game_over = false;
+    while (!game_over) {
+        game.execute_turn();
+
+        if (game.p1.life_points <= 0) {
+            std::cout << "Player 2 wins!" << std::endl;
+            game_over = true;
+        } else if (game.p2.life_points <= 0) {
+            std::cout << "Player 1 wins!" << std::endl;
+            game_over = true;
+        }
     }
-    
 
     return 0;
 }
