@@ -30,6 +30,7 @@ struct Card {
 // PlayerState structure to represent the state of each player in the game
 struct PlayerState {
     int life_points;
+    Card leader_card;
 
     std::vector<Card> hand;
     std::vector<Card> deck;
@@ -42,6 +43,7 @@ struct PlayerState {
     int don_rested_count = 0;
     int don_attached_count = 0;
 
+    void extract_leader();
     void shuffle_deck();
     void draw_cards(int num_to_draw);
     void refresh_phase();

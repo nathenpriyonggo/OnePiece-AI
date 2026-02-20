@@ -126,6 +126,13 @@ int main() {
     load_deck("player1_deck.txt", game.p1.deck, card_database);
     load_deck("player2_deck.txt", game.p2.deck, card_database);
 
+    // Extract Leaders
+    std::cout << "Extracting leader cards..." << std::endl;
+    game.p1.extract_leader();
+    game.p2.extract_leader();
+    std::cout << "Player 1 Leader: " << game.p1.leader_card.name << std::endl;
+    std::cout << "Player 2 Leader: " << game.p2.leader_card.name << std::endl;
+
     // Shuffle decks and draw starting hands
     std::cout << "Shuffling decks and drawing starting hands..." << std::endl;
     game.p1.shuffle_deck();

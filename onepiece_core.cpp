@@ -6,6 +6,16 @@
 
 // --- PLAYER STATE METHODS ---
 
+void PlayerState::extract_leader() {
+    for (auto it = deck.begin(); it != deck.end(); ++it) {
+        if (it->rarity == "L") {
+            leader_card = *it;
+            deck.erase(it);
+            break;
+        }
+    }
+}
+
 void PlayerState::shuffle_deck() {
     std::random_device rd;
     std::mt19937 g(rd());
@@ -100,7 +110,9 @@ void GameEngine::execute_turn() {
         // A. Show Status
         if (show_status) {
             std::cout << "\n--- Player Status ---" << std::endl;
-            std::cout << "Hand: " << current_player.hand.size() << " cards" << std::endl
+            std::cout << ">> " << current_player.leader_card.name << " (ID: " 
+                << current_player.leader_card.id << ")" << std::endl
+                << "Hand: " << current_player.hand.size() << " cards" << std::endl
                 << "Deck: " << current_player.deck.size() << " cards" << std::endl
                 << "Life: " << current_player.life.size() << " cards" << std::endl
                 << "Trash: " << current_player.trash.size() << " cards" << std::endl
